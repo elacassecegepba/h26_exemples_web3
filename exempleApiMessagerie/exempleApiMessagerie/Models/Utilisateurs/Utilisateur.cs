@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using exempleApiMessagerie.Models.Messages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace exempleApiMessagerie.Models.Utilisateurs;
@@ -10,8 +11,54 @@ namespace exempleApiMessagerie.Models.Utilisateurs;
 [Index(nameof(Nom), IsUnique = true)]
 [Index(nameof(Email), IsUnique = true)]
 public class Utilisateur {
-    public required long Id { get; set; }
+    /// <summary>
+    /// Clé primaire de l'utilisateur.
+    /// </summary>
+    /// <example>1</example>
+    public long Id { get; set; }
+
+    /// <summary>
+    /// Le nom de l'utilisateur.
+    /// </summary>
+    /// <example>Jean Dupont</example>
+    [MinLength(3)]
+    [MaxLength(255)]
     public required string Nom { get; set; }
+
+    /// <summary>
+    /// Le courriel de l'utilisateur.
+    /// </summary>
+    /// <example>jean.dupont@test.com</example>
+    [EmailAddress]
+    [MaxLength(255)]
     public required string Email { get; set; }
+
+    /// <summary>
+    /// Le mot de passe de l'utilisateur.
+    /// </summary>
+    /// <example>Password1!</example>
+    [MinLength(3)]
+    [MaxLength(255)]
+    [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).*$", ErrorMessage = "Au moins une lettre et un nombre")]
     public required string MotDePasse { get; set; }
+
+    /// <summary>
+    /// Propriété de navigation vers les messages envoyés par l'utilisateur.
+    /// </summary>
+    /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
+    public List<Message> Messages { get; set; } = null!;
+
+    public static Utilisateur FromDTO(UtilisateurUpsertDTO dto) {
+        return new Utilisateur {
+            Nom = dto.Nom,
+            Email = dto.Email,
+            MotDePasse = dto.MotDePasse
+        };
+    }
+
+    public void UpdateFromDTO(UtilisateurUpsertDTO dto) {
+        Nom = dto.Nom;
+        Email = dto.Email;
+        MotDePasse = dto.MotDePasse;
+    }
 }
