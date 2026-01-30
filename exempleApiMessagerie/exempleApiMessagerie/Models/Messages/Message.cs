@@ -1,5 +1,6 @@
 ﻿using exempleApiMessagerie.Models.Utilisateurs;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace exempleApiMessagerie.Models.Messages;
 
@@ -26,18 +27,33 @@ public class Message {
     /// Clé étrangère vers l'utilisateur qui a envoyé le message.
     /// </summary>
     /// <example>1</example>
-    public required long UtilisateurId { get; set; }
+    public required long EnvoyeurId { get; set; }
+
+    /// <summary>
+    /// Clé étrangère vers l'utilisateur qui reçoit le message.
+    /// </summary>
+    /// <example>1</example>
+    public required long ReceveurId { get; set; }
 
     /// <summary>
     /// Propriété de navigation vers l'utilisateur qui a envoyé le message.
     /// </summary>
     /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
-    public Utilisateur Utilisateur { get; set; } = null!;
+    [ForeignKey(nameof(EnvoyeurId))]
+    public Utilisateur Envoyeur { get; set; } = null!;
 
-    public static Message FromDTO(MessageInsertDTO dto, long utilisateurId) {
+    /// <summary>
+    /// Propriété de navigation vers l'utilisateur qui a envoyé le message.
+    /// </summary>
+    /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
+    [ForeignKey(nameof(ReceveurId))]
+    public Utilisateur Receveur { get; set; } = null!;
+
+    public static Message FromDTO(MessageInsertDTO dto, long receveurId) {
         return new Message {
             Texte = dto.Texte,
-            UtilisateurId = utilisateurId,
+            EnvoyeurId = dto.EnvoyeurId,
+            ReceveurId = receveurId
         };
     }
 }

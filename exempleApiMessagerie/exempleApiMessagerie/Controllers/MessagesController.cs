@@ -14,15 +14,15 @@ namespace exempleApiMessagerie.Controllers;
 
 [Route("api/Utilisateurs/{utilisateurId}/Messages")]
 [ApiController]
-public class UtilisateurMessagesController : ControllerBase {
+public class MessagesController : ControllerBase {
     private readonly AppDbContext _context;
 
-    public UtilisateurMessagesController(AppDbContext context) {
+    public MessagesController(AppDbContext context) {
         _context = context;
     }
 
     /// <summary>
-    /// Récupère tous les messages de l'utilisateur spécifié.
+    /// Récupère tous les messages reçus de l'utilisateur spécifié.
     /// </summary>
     /// <param name="utilisateurId">L'identifiant de l'utilisateur.</param>
     /// <returns>Une liste d'utilisateurs.</returns>
@@ -32,20 +32,35 @@ public class UtilisateurMessagesController : ControllerBase {
     [ProducesResponseType<IEnumerable<MessageDTO>>(StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, MediaTypeNames.Application.ProblemJson)]
     public async Task<ActionResult<IEnumerable<MessageDTO>>> GetMessages(long utilisateurId) {
+        // Récupération des messages directement à partir de la table Messages
         if (!UtilisateurExiste(utilisateurId)) {
             return NotFound(CreerProblemDetailsUtilisateurNonTrouve(utilisateurId));
         }
 
         return await _context.Messages
-                .Where(m => m.UtilisateurId == utilisateurId)
-                .Select(message => MessageDTO.FromMessage(message))
-                .ToListAsync();
+                        .Where(m => m.ReceveurId == utilisateurId)
+                        .Select(m => MessageDTO.FromMessage(m))
+                        .ToListAsync();
+
+        // Récupération des messages à partir de la propriété MessagesRecus de l'utilisateur
+        Utilisateur? utilisateur = await _context.Utilisateurs
+            .Include(u => u.MessagesRecus)
+            .Where(u => u.Id == utilisateurId)
+            .FirstOrDefaultAsync();
+
+        if (utilisateur is null) {
+            return NotFound(CreerProblemDetailsUtilisateurNonTrouve(utilisateurId));
+        }
+
+        return utilisateur.MessagesRecus
+            .Select(m => MessageDTO.FromMessage(m))
+            .ToList();
     }
 
     /// <summary>
-    /// Crée un nouveau message pour l'utilisateur spécifié.
+    /// Envoie un message à l'utilisateur spécifié
     /// </summary>
-    /// <param name="utilisateurId">L'identifiant de l'utilisateur.</param>
+    /// <param name="utilisateurId">L'identifiant de l'utilisateur à qui envoyer le message.</param>
     /// <param name="messageDTO">Le message à créer.</param>
     /// <returns>Le message créé.</returns>
     /// <response code="201">Le message a été créé avec succès.</response>
@@ -58,6 +73,9 @@ public class UtilisateurMessagesController : ControllerBase {
     public async Task<ActionResult<MessageDTO>> PostMessage(long utilisateurId, MessageInsertDTO messageDTO) {
         if (!UtilisateurExiste(utilisateurId)) {
             return NotFound(CreerProblemDetailsUtilisateurNonTrouve(utilisateurId));
+        }
+        if (!UtilisateurExiste(messageDTO.EnvoyeurId)) {
+            return NotFound(CreerProblemDetailsUtilisateurNonTrouve(messageDTO.EnvoyeurId));
         }
 
         Message message = Message.FromDTO(messageDTO, utilisateurId);

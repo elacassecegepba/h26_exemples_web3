@@ -27,11 +27,18 @@ public class MessageDTO {
     /// <example>1</example>
     public required long UtilisateurId { get; set; }
 
+    /// <summary>
+    /// Clé étrangère vers l'utilisateur qui reçoit le message.
+    /// </summary>
+    /// <example>1</example>
+    public required long ReceveurId { get; set; }
+
     public static MessageDTO FromMessage(Message message) {
         return new MessageDTO {
             Id = message.Id,
             Texte = message.Texte,
-            UtilisateurId = message.UtilisateurId
+            UtilisateurId = message.EnvoyeurId,
+            ReceveurId = message.ReceveurId
         };
     }
 }

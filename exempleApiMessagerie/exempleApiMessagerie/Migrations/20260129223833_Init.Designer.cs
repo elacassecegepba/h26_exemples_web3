@@ -10,8 +10,8 @@ using exempleApiMessagerie.Models;
 namespace exempleApiMessagerie.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260122223110_CreateMessageTable")]
-    partial class CreateMessageTable
+    [Migration("20260129223833_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,17 +25,22 @@ namespace exempleApiMessagerie.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("EnvoyeurId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ReceveurId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Texte")
                         .IsRequired()
                         .HasMaxLength(65535)
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("UtilisateurId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UtilisateurId");
+                    b.HasIndex("EnvoyeurId");
+
+                    b.HasIndex("ReceveurId");
 
                     b.ToTable("Messages");
                 });
@@ -74,18 +79,28 @@ namespace exempleApiMessagerie.Migrations
 
             modelBuilder.Entity("exempleApiMessagerie.Models.Messages.Message", b =>
                 {
-                    b.HasOne("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", "Utilisateur")
-                        .WithMany("Messages")
-                        .HasForeignKey("UtilisateurId")
+                    b.HasOne("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", "Envoyeur")
+                        .WithMany("MessagesEnvoyes")
+                        .HasForeignKey("EnvoyeurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Utilisateur");
+                    b.HasOne("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", "Receveur")
+                        .WithMany("MessagesRecus")
+                        .HasForeignKey("ReceveurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Envoyeur");
+
+                    b.Navigation("Receveur");
                 });
 
             modelBuilder.Entity("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", b =>
                 {
-                    b.Navigation("Messages");
+                    b.Navigation("MessagesEnvoyes");
+
+                    b.Navigation("MessagesRecus");
                 });
 #pragma warning restore 612, 618
         }
