@@ -1,4 +1,5 @@
-﻿using exempleApiMessagerie.Models.Messages;
+﻿using exempleApiMessagerie.Models.Conversations;
+using exempleApiMessagerie.Models.Messages;
 using exempleApiMessagerie.Models.Utilisateurs;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ public class AppDbContext : DbContext {
     // Déclaration des tables (DbSet) de la BD
     public DbSet<Utilisateur> Utilisateurs { get; set; } = null!;
     public DbSet<Message> Messages { get; set; } = null!;
+    public DbSet<Conversation> Conversations { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) {
         options.UseSqlite($"Data Source={DbPath}");

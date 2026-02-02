@@ -1,15 +1,9 @@
 ﻿using exempleApiMessagerie.Models;
 using exempleApiMessagerie.Models.Utilisateurs;
 using exempleApiMessagerie.SQLite;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
-using System.Threading.Tasks;
 
 namespace exempleApiMessagerie.Controllers;
 

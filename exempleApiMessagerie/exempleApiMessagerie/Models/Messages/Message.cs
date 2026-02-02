@@ -1,4 +1,4 @@
-﻿using exempleApiMessagerie.Models.Utilisateurs;
+﻿using exempleApiMessagerie.Models.Conversations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,36 +24,22 @@ public class Message {
     public required string Texte { get; set; }
 
     /// <summary>
-    /// Clé étrangère vers l'utilisateur qui a envoyé le message.
+    /// Clé étrangère vers la conversation qui reçoit le message.
     /// </summary>
     /// <example>1</example>
-    public required long EnvoyeurId { get; set; }
+    public required long ConversationId { get; set; }
 
     /// <summary>
-    /// Clé étrangère vers l'utilisateur qui reçoit le message.
-    /// </summary>
-    /// <example>1</example>
-    public required long ReceveurId { get; set; }
-
-    /// <summary>
-    /// Propriété de navigation vers l'utilisateur qui a envoyé le message.
+    /// Propriété de navigation vers la conversation qui reçoit le message.
     /// </summary>
     /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
-    [ForeignKey(nameof(EnvoyeurId))]
-    public Utilisateur Envoyeur { get; set; } = null!;
+    [ForeignKey(nameof(ConversationId))]
+    public Conversation Conversation { get; set; } = null!;
 
-    /// <summary>
-    /// Propriété de navigation vers l'utilisateur qui a envoyé le message.
-    /// </summary>
-    /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
-    [ForeignKey(nameof(ReceveurId))]
-    public Utilisateur Receveur { get; set; } = null!;
-
-    public static Message FromDTO(MessageInsertDTO dto, long receveurId) {
+    public static Message FromDTO(MessageInsertDTO dto, long conversationId) {
         return new Message {
             Texte = dto.Texte,
-            EnvoyeurId = dto.EnvoyeurId,
-            ReceveurId = receveurId
+            ConversationId = conversationId
         };
     }
 }

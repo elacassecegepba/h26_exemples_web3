@@ -1,7 +1,6 @@
-﻿using exempleApiMessagerie.Models.Messages;
+﻿using exempleApiMessagerie.Models.Conversations;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace exempleApiMessagerie.Models.Utilisateurs;
 
@@ -47,15 +46,7 @@ public class Utilisateur {
     /// Propriété de navigation vers les messages envoyés par l'utilisateur.
     /// </summary>
     /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
-    [InverseProperty(nameof(Message.Envoyeur))]
-    public List<Message> MessagesEnvoyes { get; set; } = null!;
-
-    /// <summary>
-    /// Propriété de navigation vers les messages reçu par l'utilisateur.
-    /// </summary>
-    /// <remarks>Il faut utiliser <a href="https://learn.microsoft.com/fr-ca/ef/core/querying/related-data/eager">Include</a> pour que cette propriété soit chargée.</remarks>
-    [InverseProperty(nameof(Message.Receveur))]
-    public List<Message> MessagesRecus { get; set; } = null!;
+    public List<Conversation> Conversations { get; set; } = null!;
 
     public static Utilisateur FromDTO(UtilisateurUpsertDTO dto) {
         return new Utilisateur {

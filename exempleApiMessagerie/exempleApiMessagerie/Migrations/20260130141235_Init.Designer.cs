@@ -10,7 +10,7 @@ using exempleApiMessagerie.Models;
 namespace exempleApiMessagerie.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260129223833_Init")]
+    [Migration("20260130141235_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -19,16 +19,39 @@ namespace exempleApiMessagerie.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.12");
 
+            modelBuilder.Entity("ConversationUtilisateur", b =>
+                {
+                    b.Property<long>("ConversationsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("UtilisateursId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ConversationsId", "UtilisateursId");
+
+                    b.HasIndex("UtilisateursId");
+
+                    b.ToTable("ConversationUtilisateur");
+                });
+
+            modelBuilder.Entity("exempleApiMessagerie.Models.Conversations.Conversation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Conversations");
+                });
+
             modelBuilder.Entity("exempleApiMessagerie.Models.Messages.Message", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("EnvoyeurId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("ReceveurId")
+                    b.Property<long>("ConversationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Texte")
@@ -38,9 +61,7 @@ namespace exempleApiMessagerie.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnvoyeurId");
-
-                    b.HasIndex("ReceveurId");
+                    b.HasIndex("ConversationId");
 
                     b.ToTable("Messages");
                 });
@@ -77,30 +98,35 @@ namespace exempleApiMessagerie.Migrations
                     b.ToTable("Utilisateurs");
                 });
 
-            modelBuilder.Entity("exempleApiMessagerie.Models.Messages.Message", b =>
+            modelBuilder.Entity("ConversationUtilisateur", b =>
                 {
-                    b.HasOne("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", "Envoyeur")
-                        .WithMany("MessagesEnvoyes")
-                        .HasForeignKey("EnvoyeurId")
+                    b.HasOne("exempleApiMessagerie.Models.Conversations.Conversation", null)
+                        .WithMany()
+                        .HasForeignKey("ConversationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", "Receveur")
-                        .WithMany("MessagesRecus")
-                        .HasForeignKey("ReceveurId")
+                    b.HasOne("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", null)
+                        .WithMany()
+                        .HasForeignKey("UtilisateursId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Envoyeur");
-
-                    b.Navigation("Receveur");
                 });
 
-            modelBuilder.Entity("exempleApiMessagerie.Models.Utilisateurs.Utilisateur", b =>
+            modelBuilder.Entity("exempleApiMessagerie.Models.Messages.Message", b =>
                 {
-                    b.Navigation("MessagesEnvoyes");
+                    b.HasOne("exempleApiMessagerie.Models.Conversations.Conversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("MessagesRecus");
+                    b.Navigation("Conversation");
+                });
+
+            modelBuilder.Entity("exempleApiMessagerie.Models.Conversations.Conversation", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
