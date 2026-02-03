@@ -1,0 +1,15 @@
+{
+  "workspace": {
+    "id": "b06043f1-0d3a-4455-bf6d-d6f3caae99d2"
+  },
+  "entities": {
+    "environments": [],
+    "flows": [],
+    "globals": [],
+    "mocks": [],
+    "specs": [
+      "..\\exempleApiMessagerie\\exempleApiMessagerie\\obj\\Debug\\net9.0\\EndpointInfo\\exempleApiMessagerie.json"
+    ],
+    "collections": []
+  }
+}
