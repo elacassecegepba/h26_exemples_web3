@@ -97,7 +97,7 @@
                           "\r",
                           "    // Enregistrer l'id de l'utilisateur pour les tests ultérieurs\r",
                           "    // Voir GET /utilisateurs/{id} 200\r",
-                          "    pm.collectionVariables.set(\"id_utilisateur\", donnees.id);\r",
+                          "    pm.environment.set(\"id_utilisateur\", donnees.id);\r",
                           "});\r",
                           ""
                         ],
@@ -158,6 +158,9 @@
                           "\r",
                           "    pm.expect(donnees.nom).to.equal(\"123\");\r",
                           "    pm.expect(donnees.email).to.equal(\"123@test.com\");\r",
+                          "\r",
+                          "    // Enregistrer l'id de l'utilisateur pour les tests ultérieurs\r",
+                          "    pm.environment.set(\"id_utilisateur2\", donnees.id);\r",
                           "});"
                         ],
                         "type": "text/javascript",
@@ -1357,20 +1360,20 @@
               "name": "204",
               "item": [
                 {
-                  "name": "Delete user Données valides",
+                  "name": "Delete user 3char",
                   "id": "fcf55653-d12d-43c5-be09-74adc787693d",
                   "request": {
                     "method": "DELETE",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur2}}",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "{{id_utilisateur2}}"
                       ]
                     }
                   },
@@ -1412,20 +1415,20 @@
               "name": "404",
               "item": [
                 {
-                  "name": "Delete user Données valides 2e fois",
+                  "name": "Delete user 3char 2e fois",
                   "id": "f28c46f5-908a-429a-bbaf-9a633fddd466",
                   "request": {
                     "method": "DELETE",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur2}}",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "{{id_utilisateur2}}"
                       ]
                     }
                   },
@@ -1477,18 +1480,512 @@
           "item": [
             {
               "name": "201",
-              "item": [],
-              "id": "ee1092cc-500b-4e4f-afed-152bdee36688"
+              "item": [
+                {
+                  "name": "texte normal",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.texte).to.equal(\"Allo\");\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "650ea411-91fa-432a-8822-4ec14e511cb3",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"Allo\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte 1 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.texte).to.equal(\"1\");\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "1ecd776e-7c9f-469e-ad08-c48d5678cf78",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"1\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte 65535 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.texte).to.equal(pm.variables.get(\"message\"));\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          "pm.variables.set(\"message\", 'A'.repeat(65535));\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "7b02828e-8a91-4507-95b1-b4ebdf32f926",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"{{message}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "ee1092cc-500b-4e4f-afed-152bdee36688",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "f4806d62-e46d-47ca-acb5-12dccbecf92e",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "54c8bb14-0646-4f26-961a-2c36998c51c8",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.MessageDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
             },
             {
               "name": "400",
-              "item": [],
-              "id": "950679b4-3bdb-458a-9a5d-380cf8dc1161"
+              "item": [
+                {
+                  "name": "envoyeurId manquant",
+                  "id": "4f7f19dd-f42b-4739-98a2-0a157f74b44c",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"texte\": \"allo\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte manquant",
+                  "id": "c317f5fe-9fc8-4da2-9d02-3fcde27154d9",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}}\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte vide",
+                  "id": "d58193bb-8533-4d1e-8386-e75c02227652",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte 65536 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          "pm.variables.set(\"message65536\", 'A'.repeat(65536));\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "69e960c0-d525-4539-9590-b473129e99ed",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"{{message65536}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "950679b4-3bdb-458a-9a5d-380cf8dc1161",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "8354a985-5e65-4456-a5f6-3db2e318869e",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "7baa2c70-3a1d-46e6-b75c-4037778bbff4",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
             },
             {
               "name": "404",
-              "item": [],
-              "id": "72ffc4b3-702e-4d5f-81e6-207ef1d74bf3"
+              "item": [
+                {
+                  "name": "url id -1",
+                  "id": "5edccc8c-3c3d-4ede-9af4-19b480600924",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/-1/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "-1",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body id -1",
+                  "id": "c5e71f0b-11d7-428e-9112-76d373e0936a",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": -1,\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "72ffc4b3-702e-4d5f-81e6-207ef1d74bf3",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "858607e3-43dc-43b4-aea9-fec3d5673dae",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a55a2c3a-fb79-4438-96b0-88b2f3d939e3",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
             }
           ],
           "id": "2ddf8922-9f43-4eef-af42-c9defc521191"
@@ -1626,7 +2123,7 @@
     {
       "listen": "prerequest",
       "script": {
-        "id": "54338715-9e6d-4eb0-a4d6-ffffdd1765d9",
+        "id": "1b602496-92aa-48e1-ac61-8fd97b5b8c2d",
         "type": "text/javascript",
         "packages": {},
         "requests": {},
@@ -1703,7 +2200,7 @@
     {
       "listen": "test",
       "script": {
-        "id": "1febcceb-707d-446b-8c6b-a9bc294cb297",
+        "id": "37037d6f-a221-4c68-99a2-8e195a194460",
         "type": "text/javascript",
         "packages": {},
         "requests": {},
@@ -1715,14 +2212,9 @@
   ],
   "variable": [
     {
-      "id": "b1e93a79-3e7c-4dea-ba6c-8750f1345c4f",
+      "id": "e41465ee-639f-4a72-9b16-e8b2e70cbaff",
       "key": "base_url",
       "value": "https://localhost:7207"
-    },
-    {
-      "id": "8f2a0c98-834e-407e-b7ed-f9ccc22a2f95",
-      "key": "id_utilisateur",
-      "value": ""
     }
   ]
 }
