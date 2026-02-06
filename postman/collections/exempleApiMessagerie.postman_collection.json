@@ -1,0 +1,2220 @@
+{
+  "info": {
+    "_postman_id": "e4fe70fa-2dfe-4f59-942f-48ea243ce271",
+    "name": "exempleApiMessagerie",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Utilisateurs",
+      "item": [
+        {
+          "name": "GET /utilisateurs",
+          "item": [
+            {
+              "name": "200",
+              "item": [
+                {
+                  "name": "Récupérer utilisateurs",
+                  "id": "f744a639-4836-4781-bacd-1814cb8fdfd2",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "59d2c88a-66a9-4e09-8cfc-3ae307cef49e",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "ef54d28a-bedf-4a4f-9293-70a45aad7abd",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "dd8f7460-9153-44af-8596-b5356f500075",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.UtilisateurDTOs);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "3c922f41-fb0d-4d51-ad25-d9bff94d65d6"
+        },
+        {
+          "name": "POST /utilisateurs",
+          "item": [
+            {
+              "name": "201",
+              "item": [
+                {
+                  "name": "Données valides",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"Nom de test\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"test@test.com\");\r",
+                          "\r",
+                          "    // Enregistrer l'id de l'utilisateur pour les tests ultérieurs\r",
+                          "    // Voir GET /utilisateurs/{id} 200\r",
+                          "    pm.environment.set(\"id_utilisateur\", donnees.id);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "72eb1088-6d79-475f-a59c-1737649e41d2",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "c99b3b2a-54bf-4fca-a2ab-85cead2ad123",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 3 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"123\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"123@test.com\");\r",
+                          "\r",
+                          "    // Enregistrer l'id de l'utilisateur pour les tests ultérieurs\r",
+                          "    pm.environment.set(\"id_utilisateur2\", donnees.id);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "f4e22cd6-db21-488d-9c09-e1169623f641",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"123\",\r\n    \"email\": \"123@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 255 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678912345\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"255char@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "cff32404-ee47-4c25-bc3a-f398d4fc78fc",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678912345\",\r\n    \"email\": \"255char@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 3 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"mdp3char\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"mdp3char@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "c39d89e8-dede-4215-a5dc-bfdf10e37329",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"mdp3char\",\r\n    \"email\": \"mdp3char@test.com\",\r\n    \"motDePasse\": \"a1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 255 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"mdp255char\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"mdp255char@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "941d8aad-8efa-4a9d-a900-c5a201f4ce2b",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"mdp255char\",\r\n    \"email\": \"mdp255char@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcde\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "95f6f4be-ad08-48f9-9ce2-2effa1836a0c",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "327cb317-782f-441a-9737-5bc325216e3b",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "48fdb7e5-40be-4b4b-b012-d60dda6b37e0",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.UtilisateurDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "400",
+              "item": [
+                {
+                  "name": "nom manquant",
+                  "id": "9340d5c5-14b9-4e8d-a023-bb0853a3804b",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email manquant",
+                  "id": "c1c2e2c2-30e6-4200-b86c-d2c737be5841",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe manquant",
+                  "id": "4ac814d5-775c-42a9-a88e-9ae667cf6385",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"test@test.com\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 2 char",
+                  "id": "dcd45b6a-d130-4ce9-97a4-c826b8c018b2",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"12\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 256 char",
+                  "id": "cefb31fe-0caa-4c1e-8de1-0e2d1f22b972",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789123456\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 2 char",
+                  "id": "94a552b3-4184-4ce3-b648-f5798038ca7d",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"a1\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 256 char",
+                  "id": "411474a4-683f-40d4-a24e-2df377200131",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_abcd!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email 255 char",
+                  "id": "152444b9-a85e-4fe5-82fa-8e057978fe62",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"_012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcdef@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email mauvais format",
+                  "id": "4409d4c7-9292-45a4-a253-d6fba74ad972",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"email\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe sans chiffre",
+                  "id": "0d246665-ffdf-4df8-96c0-0bad57bf58c6",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe sans lettre",
+                  "id": "41c8a554-10ba-4bd7-8862-9be5a7f8d4da",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"123456789!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "fb97253b-f3ce-4f7a-9396-5e7854da4cbb",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "86afdcd0-b939-4943-9e92-5bbd19671fc9",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "d37e5f2a-36a1-4db7-8bae-77597bef9b90",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "409",
+              "item": [
+                {
+                  "name": "Nom existant",
+                  "id": "deb5e6db-8b5b-4ddb-975c-27b56711d1ee",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"123456789asdf@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Email existant",
+                  "id": "a89bebd1-d7a0-4410-9795-bf3e36a1c5b0",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"lkjsadhcvsdhagcjdbscyiewrrfbvekfdvbioesadu\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "bbb5e644-140e-470a-8b1c-9a2029ef365d",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "8a84ecb2-1070-4b15-829c-870c20f89efb",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "d6dec6b7-cfae-4107-802a-1d91aaecd8f9",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 409\", function () {\r",
+                      "    pm.response.to.have.status(409);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "67b9f74d-1a57-4244-b1dc-7c20dbfd67b1"
+        },
+        {
+          "name": "GET /utilisateurs/{id}",
+          "item": [
+            {
+              "name": "200",
+              "item": [
+                {
+                  "name": "Get user Données valides",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "46bae4ed-82bc-4c6f-af2b-55ef04f9afc6",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "b0b367e1-bda7-4688-9d97-70058c0b10fd",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données attendues\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"Nom de test\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"test@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "56b5c25c-b258-4c21-9c56-fc845adf9f4c",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "d2145dc0-8477-4ccc-b938-f5c2b1b57b45",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "7e8bbfd0-a23c-4f9f-a6b1-0c2985c07170",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "6efafcb4-5329-49e5-8a86-c4b12805efe9",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.UtilisateurDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "404",
+              "item": [
+                {
+                  "name": "id -1",
+                  "id": "e97c9add-a969-4c5c-9bc0-2da540a91ea0",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/-1",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "-1"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "901cc91b-77b2-4d2f-a1fc-2d40a9fdd760",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "af58b0b4-861a-4e44-b30b-3242008d5061",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a6268cf3-3ece-4972-b504-fc4e3ca74bd4",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "1ff14934-1988-4589-a9ec-aa6d015794b0"
+        },
+        {
+          "name": "PUT /utilisateurs/{id}",
+          "item": [
+            {
+              "name": "204",
+              "item": [
+                {
+                  "name": "Données valides",
+                  "id": "320f1e10-bc1c-4959-bd09-c60bb922613d",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Un autre nom\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"Password2!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 3 char",
+                  "id": "78687a91-34bb-45f7-96cc-7f267470be77",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"321\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"Password2!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 255 char",
+                  "id": "0c484429-d3b8-4530-8a7a-e266bec5c875",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891234e\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"Password2!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 3 char",
+                  "id": "d83e66bd-5134-44aa-a519-3085b94f2f0b",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Un autre nom\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"a1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 255 char",
+                  "id": "e87fbf37-d661-4fbc-9317-1697ee8697f6",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Un autre nom\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcde\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "46b139a7-383e-43f4-a56c-8a53cd71604b",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "918e62f0-f29b-4d9e-b8e0-de6c97e7f013",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "2e4ee47d-c8c0-446a-a24b-e1879710bbc8",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 204\", function () {\r",
+                      "    pm.response.to.have.status(204);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "404",
+              "item": [
+                {
+                  "name": "id -1",
+                  "id": "5f53e408-6659-44c9-890f-0f98e5472cfc",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Un autre nom\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"Password2!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/-1",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "-1"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "34efdc55-d199-4c70-a5fb-359d0e4da4fb",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "f940e1c3-bb17-4b3a-90f2-e02bf2fde625",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "75cf1809-398d-499b-8204-3e3eb6a7e4cf",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "409",
+              "item": [
+                {
+                  "name": "Nom existant",
+                  "id": "f5b91f3d-6097-4530-891a-bb2312803fd5",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"123\",\r\n    \"email\": \"autre@test.com\",\r\n    \"motDePasse\": \"Password2!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Email existant",
+                  "id": "aec4791e-5305-40e4-bff2-0893cbb088e2",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Un autre nom\",\r\n    \"email\": \"123@test.com\",\r\n    \"motDePasse\": \"Password2!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "3a823f51-e5d7-4018-aa3f-6c54331429f8",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "7d4e4c73-dbad-4c9c-a702-8a16dd12020f",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "0b367daa-08e4-4504-8a04-7cb928603911",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 409\", function () {\r",
+                      "    pm.response.to.have.status(409);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "787ef355-3a74-4233-a4d8-8efe47c56731"
+        },
+        {
+          "name": "DELETE /utilisateurs/{id}",
+          "item": [
+            {
+              "name": "204",
+              "item": [
+                {
+                  "name": "Delete user 3char",
+                  "id": "fcf55653-d12d-43c5-be09-74adc787693d",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur2}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur2}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "526cd1c1-5fec-4c64-b998-8124fa09260a",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "3590a47c-3d36-4db1-87b1-dd8c0cafa661",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "4eeed890-4027-457d-8f56-0a57a899e5d6",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 204\", function () {\r",
+                      "    pm.response.to.have.status(204);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "404",
+              "item": [
+                {
+                  "name": "Delete user 3char 2e fois",
+                  "id": "f28c46f5-908a-429a-bbaf-9a633fddd466",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur2}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "{{id_utilisateur2}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "fe88b593-2d89-4fc8-909a-3fceb3953a75",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "4900bebc-2e49-4a65-89dd-82fd98d85847",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "22c4a500-ef48-4de4-8a3b-a93a6cedf6e9",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "6e4c4518-a74f-452f-a0ee-650e707ed56e"
+        }
+      ],
+      "id": "6b783bf6-6a60-462c-8192-3d207c5df6d9"
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "POST /utilisateurs/{id}/messages",
+          "item": [
+            {
+              "name": "201",
+              "item": [
+                {
+                  "name": "texte normal",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.texte).to.equal(\"Allo\");\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "650ea411-91fa-432a-8822-4ec14e511cb3",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"Allo\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte 1 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.texte).to.equal(\"1\");\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "1ecd776e-7c9f-469e-ad08-c48d5678cf78",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"1\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte 65535 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.texte).to.equal(pm.variables.get(\"message\"));\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          "pm.variables.set(\"message\", 'A'.repeat(65535));\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "7b02828e-8a91-4507-95b1-b4ebdf32f926",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"{{message}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "ee1092cc-500b-4e4f-afed-152bdee36688",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "f4806d62-e46d-47ca-acb5-12dccbecf92e",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "54c8bb14-0646-4f26-961a-2c36998c51c8",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.MessageDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "400",
+              "item": [
+                {
+                  "name": "envoyeurId manquant",
+                  "id": "4f7f19dd-f42b-4739-98a2-0a157f74b44c",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"texte\": \"allo\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte manquant",
+                  "id": "c317f5fe-9fc8-4da2-9d02-3fcde27154d9",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}}\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte vide",
+                  "id": "d58193bb-8533-4d1e-8386-e75c02227652",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "texte 65536 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "38c06756-0b5c-4d1d-8bc3-ded0a13bffea",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3f199052-4ce5-490b-a97b-9abc3fd7aa1d",
+                        "exec": [
+                          "pm.variables.set(\"message65536\", 'A'.repeat(65536));\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "69e960c0-d525-4539-9590-b473129e99ed",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"{{message65536}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "950679b4-3bdb-458a-9a5d-380cf8dc1161",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "8354a985-5e65-4456-a5f6-3db2e318869e",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "7baa2c70-3a1d-46e6-b75c-4037778bbff4",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "404",
+              "item": [
+                {
+                  "name": "url id -1",
+                  "id": "5edccc8c-3c3d-4ede-9af4-19b480600924",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/-1/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "-1",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body id -1",
+                  "id": "c5e71f0b-11d7-428e-9112-76d373e0936a",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"envoyeurId\": -1,\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "72ffc4b3-702e-4d5f-81e6-207ef1d74bf3",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "858607e3-43dc-43b4-aea9-fec3d5673dae",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a55a2c3a-fb79-4438-96b0-88b2f3d939e3",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "2ddf8922-9f43-4eef-af42-c9defc521191"
+        },
+        {
+          "name": "GET /utilisateurs/{id}/messages",
+          "item": [
+            {
+              "name": "200",
+              "item": [
+                {
+                  "name": "Get messages",
+                  "id": "fe3fe7a5-24fc-4081-9a03-549c443753ff",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{id_utilisateur}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "66914833-ed67-47a9-9a7a-520e19a588ee",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "63077af4-1169-4636-a8e8-058258210ed4",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "c22d2f0c-7c8c-471f-bd18-cc121ad349e8",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.MessageDTOs);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "404",
+              "item": [
+                {
+                  "name": "id -1",
+                  "id": "37e1f22a-9fbb-465b-87bc-a65dae787b5e",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/-1/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "-1",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "c6a7edfb-1da8-48f3-8154-a1a6026179de",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "61f27eeb-c59c-49e3-ac84-fe71b1c92cc1",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "f1aea6c9-8414-44fb-86c7-ce98c937b25d",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "9f6fb3ab-3566-48e0-8750-646e27ce6cf0"
+        }
+      ],
+      "id": "48085cfb-f755-4caa-a5f0-8f9c56c31560"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "1b602496-92aa-48e1-ac61-8fd97b5b8c2d",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "const MessageDTO = {\r",
+          "    \"type\": \"object\",\r",
+          "    \"required\": [\r",
+          "        \"receveurId\",\r",
+          "        \"texte\",\r",
+          "        \"utilisateurId\"\r",
+          "    ],\r",
+          "    \"properties\": {\r",
+          "        \"id\": {\r",
+          "            \"type\": \"integer\",\r",
+          "        },\r",
+          "        \"texte\": {\r",
+          "            \"maxLength\": 65535,\r",
+          "            \"minLength\": 1,\r",
+          "            \"type\": \"string\",\r",
+          "        },\r",
+          "        \"utilisateurId\": {\r",
+          "            \"type\": \"integer\",\r",
+          "        },\r",
+          "        \"receveurId\": {\r",
+          "            \"type\": \"integer\",\r",
+          "        }\r",
+          "    },\r",
+          "};\r",
+          "\r",
+          "const MessageDTOs = {\r",
+          "    type: \"array\",\r",
+          "    items: MessageDTO\r",
+          "};\r",
+          "\r",
+          "const UtilisateurDTO = {\r",
+          "    \"type\": \"object\",\r",
+          "    \"required\": [\r",
+          "        \"email\",\r",
+          "        \"id\",\r",
+          "        \"nom\"\r",
+          "    ],\r",
+          "    \"properties\": {\r",
+          "        \"id\": {\r",
+          "            \"type\": \"integer\",\r",
+          "        },\r",
+          "        \"nom\": {\r",
+          "            \"maxLength\": 255,\r",
+          "            \"minLength\": 3,\r",
+          "            \"type\": \"string\",\r",
+          "        },\r",
+          "        \"email\": {\r",
+          "            \"maxLength\": 255,\r",
+          "            \"type\": \"string\",\r",
+          "            \"format\": \"email\",\r",
+          "        },\r",
+          "    },\r",
+          "};\r",
+          "\r",
+          "const UtilisateurDTOs = {\r",
+          "    type: \"array\",\r",
+          "    items: UtilisateurDTO\r",
+          "};\r",
+          "\r",
+          "schemas = {\r",
+          "    MessageDTO,\r",
+          "    MessageDTOs,\r",
+          "    UtilisateurDTO,\r",
+          "    UtilisateurDTOs,\r",
+          "}\r",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "37037d6f-a221-4c68-99a2-8e195a194460",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "id": "e41465ee-639f-4a72-9b16-e8b2e70cbaff",
+      "key": "base_url",
+      "value": "https://localhost:7207"
+    }
+  ]
+}
