@@ -16,7 +16,6 @@ public class UtilisateurLoginDTO {
     /// Le courriel de l'utilisateur.
     /// </summary>
     /// <example>jean.dupont@test.com</example>
-    [EmailAddress]
     [MaxLength(255)]
     public required string Email { get; set; }
 
@@ -24,9 +23,7 @@ public class UtilisateurLoginDTO {
     /// Le mot de passe de l'utilisateur.
     /// </summary>
     /// <example>Password1!</example>
-    [MinLength(3)]
     [MaxLength(255)]
-    [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).*$", ErrorMessage = "Au moins une lettre et un nombre")]
     public required string MotDePasse { get; set; }
 
 }
