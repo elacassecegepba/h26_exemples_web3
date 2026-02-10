@@ -100,8 +100,7 @@ public class AuthController : ControllerBase {
             new Claim(JwtRegisteredClaimNames.Name, utilisateur.Nom) // Nom d'utilisateur
         };
 
-        if (utilisateur.Nom == "admin")
-        {
+        if (utilisateur.Nom == "admin") {
             // Exemple de claim de rôle, à adapter selon les besoins
             claims.Add(new Claim(ClaimTypes.Role, "Admin"));
         }

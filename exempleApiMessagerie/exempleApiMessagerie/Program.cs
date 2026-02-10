@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = builder.Configuration["JwtSettings:Audience"],
 
             ValidateLifetime = true,
-        
+
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:TokenPassKey"]!)
@@ -57,8 +57,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    using (var scope = app.Services.CreateScope())
-    {
+    using (var scope = app.Services.CreateScope()) {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         // Applique les migrations automatiquement à l'application au démarrage.
         // Équivalent à exécuter "dotnet ef database update" dans le terminal.

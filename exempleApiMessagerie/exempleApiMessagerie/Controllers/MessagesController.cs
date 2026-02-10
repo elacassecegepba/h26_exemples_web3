@@ -65,7 +65,7 @@ public class MessagesController : ControllerBase {
         if (!UtilisateurExiste(utilisateurId)) {
             return NotFound(CreerProblemDetailsUtilisateurNonTrouve(utilisateurId));
         }
-        
+
         // Récupération de l'identifiant de l'utilisateur à partir du token JWT
         long envoyeurId = long.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
 
