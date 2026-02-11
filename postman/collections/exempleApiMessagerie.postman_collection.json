@@ -6,6 +6,60 @@
   },
   "item": [
     {
+      "name": "Setup",
+      "item": [
+        {
+          "name": "Réinitialiser la base de données",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "bc58a4dc-bdda-4aaa-81e3-edc8ccc61eb5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "26e85e21-63e4-4c4c-873d-5fcca4c60b65",
+                "exec": [
+                  "pm.test(\"Code de statut est 204\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "d2a3e6f0-d240-42ca-b1bb-501a4dfc5ec7",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dev/reinitialiserbasededonnees",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "dev",
+                "reinitialiserbasededonnees"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "59fc8d68-6c49-49cd-b031-b104960ba659"
+    },
+    {
       "name": "Auth",
       "item": [
         {
@@ -2843,6 +2897,60 @@
           }
         ]
       }
+    },
+    {
+      "name": "Cleanup",
+      "item": [
+        {
+          "name": "Réinitialiser la base de données",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "bc58a4dc-bdda-4aaa-81e3-edc8ccc61eb5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "26e85e21-63e4-4c4c-873d-5fcca4c60b65",
+                "exec": [
+                  "pm.test(\"Code de statut est 204\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "b0278a29-5d77-4cbd-809a-eac2cfdeedd4",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dev/reinitialiserbasededonnees",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "dev",
+                "reinitialiserbasededonnees"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "befe94a4-b626-47a3-97b9-c7c71663d3f8"
     }
   ],
   "event": [

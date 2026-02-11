@@ -5,9 +5,6 @@ using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using exempleApiMessagerie.SQLite;
-using System.IdentityModel.Tokens.Jwt;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,17 +53,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    using (var scope = app.Services.CreateScope()) {
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        // Applique les migrations automatiquement à l'application au démarrage.
-        // Équivalent à exécuter "dotnet ef database update" dans le terminal.
-        // Nécessite d'avoir créé au moins une migration avec "dotnet ef migrations add <NomMigration>"
-        // Nécessite le package Microsoft.EntityFrameworkCore.Tools pour fonctionner
-        db.Database.Migrate();
-        // Seed la base de données avec des données de test si nécessaire
-        SQLiteHelper.SeedDatabase(db);
-    }
 }
 
 app.UseHttpsRedirection();

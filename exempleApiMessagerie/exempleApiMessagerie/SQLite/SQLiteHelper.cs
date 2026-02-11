@@ -13,17 +13,15 @@ public static class SQLiteHelper {
     }
 
     /// <summary>
-    /// Ajoute un utilisateur admin par défaut à la base de données si aucun utilisateur n'existe déjà.
+    /// Méthode de seed pour la base de données en environnement de développement.
     /// </summary>
-    /// <param name="context"></param>
-    public static void SeedDatabase(AppDbContext context) {
-        if (!context.Utilisateurs.Any()) {
-            context.Utilisateurs.Add(new() {
-                Nom = "admin",
-                Email = "admin@test.com",
-                MotDePasse = Utilisateur.HashMotDePasse("Admin123!")
-            });
-            context.SaveChanges();
-        }
+    /// <param name="context">Le contexte de la base de données.</param>
+    public static Task SeedDatabaseDev(AppDbContext context) {
+        context.Utilisateurs.Add(new() {
+            Nom = "admin",
+            Email = "admin@test.com",
+            MotDePasse = Utilisateur.HashMotDePasse("Admin123!")
+        });
+        return context.SaveChangesAsync();
     }
 }
