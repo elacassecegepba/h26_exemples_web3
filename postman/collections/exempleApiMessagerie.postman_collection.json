@@ -6,6 +6,1350 @@
   },
   "item": [
     {
+      "name": "Setup",
+      "item": [
+        {
+          "name": "Réinitialiser la base de données",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "bc58a4dc-bdda-4aaa-81e3-edc8ccc61eb5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "26e85e21-63e4-4c4c-873d-5fcca4c60b65",
+                "exec": [
+                  "pm.test(\"Code de statut est 204\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "d2a3e6f0-d240-42ca-b1bb-501a4dfc5ec7",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dev/reinitialiserbasededonnees",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "dev",
+                "reinitialiserbasededonnees"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "59fc8d68-6c49-49cd-b031-b104960ba659"
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /auth/register",
+          "item": [
+            {
+              "name": "201",
+              "item": [
+                {
+                  "name": "test@test.com",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"Nom de test\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"test@test.com\");\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "72eb1088-6d79-475f-a59c-1737649e41d2",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "c99b3b2a-54bf-4fca-a2ab-85cead2ad123",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 3 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"123\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"123@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "f4e22cd6-db21-488d-9c09-e1169623f641",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"123\",\r\n    \"email\": \"123@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 255 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678912345\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"255char@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "cff32404-ee47-4c25-bc3a-f398d4fc78fc",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678912345\",\r\n    \"email\": \"255char@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 3 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"mdp3char\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"mdp3char@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "c39d89e8-dede-4215-a5dc-bfdf10e37329",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"mdp3char\",\r\n    \"email\": \"mdp3char@test.com\",\r\n    \"motDePasse\": \"a1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 255 char",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.nom).to.equal(\"mdp255char\");\r",
+                          "    pm.expect(donnees.email).to.equal(\"mdp255char@test.com\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "941d8aad-8efa-4a9d-a900-c5a201f4ce2b",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"mdp255char\",\r\n    \"email\": \"mdp255char@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcde\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "95f6f4be-ad08-48f9-9ce2-2effa1836a0c",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "27b1870d-28b1-41ad-b586-5d02b1c8551e",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "b50acc6b-3e9b-43ff-893c-2f5f0d110a20",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.UtilisateurDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "400",
+              "item": [
+                {
+                  "name": "nom manquant",
+                  "id": "9340d5c5-14b9-4e8d-a023-bb0853a3804b",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email manquant",
+                  "id": "c1c2e2c2-30e6-4200-b86c-d2c737be5841",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe manquant",
+                  "id": "4ac814d5-775c-42a9-a88e-9ae667cf6385",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"test@test.com\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 2 char",
+                  "id": "dcd45b6a-d130-4ce9-97a4-c826b8c018b2",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"12\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "nom 256 char",
+                  "id": "cefb31fe-0caa-4c1e-8de1-0e2d1f22b972",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789123456\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 2 char",
+                  "id": "94a552b3-4184-4ce3-b648-f5798038ca7d",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"a1\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 256 char",
+                  "id": "411474a4-683f-40d4-a24e-2df377200131",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_abcd!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email 256 char",
+                  "id": "152444b9-a85e-4fe5-82fa-8e057978fe62",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"_012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcdef@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email mauvais format",
+                  "id": "4409d4c7-9292-45a4-a253-d6fba74ad972",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"email\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe sans chiffre",
+                  "id": "0d246665-ffdf-4df8-96c0-0bad57bf58c6",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe sans lettre",
+                  "id": "41c8a554-10ba-4bd7-8862-9be5a7f8d4da",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"123456789!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "fb97253b-f3ce-4f7a-9396-5e7854da4cbb",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "86afdcd0-b939-4943-9e92-5bbd19671fc9",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "d37e5f2a-36a1-4db7-8bae-77597bef9b90",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "409",
+              "item": [
+                {
+                  "name": "Nom existant",
+                  "id": "1336a051-3b0b-4617-9d27-819f7c9a0846",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"123456789asdf@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Email existant",
+                  "id": "d978b444-6002-452c-a524-282d6f85ad61",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"nom\": \"lkjsadhcvsdhagcjdbscyiewrrfbvekfdvbioesadu\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "0758a1a3-759e-4ce1-bf18-c4e713c6615c",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "48a0d579-2ac2-4b4b-bf93-a586863de3cc",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "c8310de2-81ff-401f-ab29-71c65d4b8c63",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 409\", function () {\r",
+                      "    pm.response.to.have.status(409);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "6232aec4-4f17-46cb-b579-b9a14b1385cc"
+        },
+        {
+          "name": "POST /auth/login",
+          "item": [
+            {
+              "name": "200",
+              "item": [
+                {
+                  "name": "test@test.com",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "c7ba90f5-f9e9-41b2-881e-58311f78e816",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "50baf2ec-fd5f-4edb-ad7a-b6b52b796666",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données de l'utilisateur\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.utilisateur.nom).to.equal(\"Nom de test\");\r",
+                          "    pm.expect(donnees.utilisateur.email).to.equal(\"test@test.com\");\r",
+                          "\r",
+                          "    // Enregistrer l'id et l'accessToken de l'utilisateur pour les tests ultérieurs\r",
+                          "    pm.environment.set(\"test_utilisateur_id\", donnees.utilisateur.id);\r",
+                          "    pm.environment.set(\"test_access_token\", donnees.accessToken);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "3599dab0-3cdf-4b4c-aaab-cedcaf158e79",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "admin",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "c7ba90f5-f9e9-41b2-881e-58311f78e816",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "50baf2ec-fd5f-4edb-ad7a-b6b52b796666",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données de l'utilisateur\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.utilisateur.nom).to.equal(\"admin\");\r",
+                          "    pm.expect(donnees.utilisateur.email).to.equal(\"admin@test.com\");\r",
+                          "\r",
+                          "    // Enregistrer l'id et l'accessToken de l'utilisateur pour les tests ultérieurs\r",
+                          "    // Voir GET /utilisateurs/{id} 200\r",
+                          "    pm.environment.set(\"admin_utilisateur_id\", donnees.utilisateur.id);\r",
+                          "    pm.environment.set(\"admin_access_token\", donnees.accessToken);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "e398805c-560a-4d23-b7b3-376a69eafccf",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"admin@test.com\",\r\n    \"motDePasse\": \"Admin123!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    },
+                    "description": "Notez l'utilisateur admin n'est pas créer à partir de Postman, mais est seedé dans le code de l'API."
+                  },
+                  "response": []
+                },
+                {
+                  "name": "123@test.com",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "c7ba90f5-f9e9-41b2-881e-58311f78e816",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "50baf2ec-fd5f-4edb-ad7a-b6b52b796666",
+                        "exec": [
+                          "pm.test(\"La réponse contient les données de l'utilisateur\", function () {\r",
+                          "    const donnees = pm.response.json();\r",
+                          "\r",
+                          "    pm.expect(donnees.utilisateur.nom).to.equal(\"123\");\r",
+                          "    pm.expect(donnees.utilisateur.email).to.equal(\"123@test.com\");\r",
+                          "\r",
+                          "    // Enregistrer l'id et l'accessToken de l'utilisateur pour les tests ultérieurs\r",
+                          "    pm.environment.set(\"123_utilisateur_id\", donnees.utilisateur.id);\r",
+                          "    pm.environment.set(\"123_access_token\", donnees.accessToken);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "id": "a05abe74-725b-44a1-a347-313ca5047637",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"123@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "66e15ea6-f099-4dc7-ba68-c50a5feb5f91",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "f8e32116-372f-4495-830f-1f0e512b9fd3",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "cf000a9e-ba52-4fe9-af07-ebb2369a3e2c",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Content-Type est application/json\", function () {\r",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test('Le schéma de la réponse est valide', function () {\r",
+                      "    pm.response.to.have.jsonSchema(schemas.LoginReponseDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "400",
+              "item": [
+                {
+                  "name": "email manquant",
+                  "id": "35e2670a-9332-4a15-bb3c-90659e4a3554",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe manquant",
+                  "id": "dbd39e90-f651-41a2-b75c-5f3a66dc6e47",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"test@test.com\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "mot de passe 256 char",
+                  "id": "a59d8a60-d359-4cd7-b859-f2539172fb0c",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_abcd!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email 256 char",
+                  "id": "f3a42085-febc-4d4a-b7ea-56e289160d4a",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"_012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcdef@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "ca83a546-2c9b-4bbb-8391-8dea2d9c3016",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "86afdcd0-b939-4943-9e92-5bbd19671fc9",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "d37e5f2a-36a1-4db7-8bae-77597bef9b90",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "401",
+              "item": [
+                {
+                  "name": "Mauvais email",
+                  "id": "5971043e-8409-4af4-9395-ad39b53a5122",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"mauvaisEmail@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Mauvais mot de passe Copy",
+                  "id": "e17c0357-724a-49dc-b662-32526e633c2a",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"mauvais mot de passe 1!\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "80f6cb9b-4b25-4776-8246-ac86086dbf71",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "aff98387-cf25-4257-9ef7-86e5699375c5",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "d1a8c57a-d150-403f-9c81-9ac161e342c2",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "id": "04eb9827-a7cb-490e-9331-86ffa8b219ad"
+        }
+      ],
+      "id": "d78702ef-a0cd-4202-9028-a445e3cdadbd"
+    },
+    {
       "name": "Utilisateurs",
       "item": [
         {
@@ -18,6 +1362,16 @@
                   "name": "Récupérer utilisateurs",
                   "id": "f744a639-4836-4781-bacd-1814cb8fdfd2",
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{admin_access_token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "GET",
                     "header": [],
                     "url": {
@@ -71,656 +1425,19 @@
                   }
                 }
               ]
-            }
-          ],
-          "id": "3c922f41-fb0d-4d51-ad25-d9bff94d65d6"
-        },
-        {
-          "name": "POST /utilisateurs",
-          "item": [
-            {
-              "name": "201",
-              "item": [
-                {
-                  "name": "Données valides",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
-                        "exec": [
-                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
-                          "    const donnees = pm.response.json();\r",
-                          "\r",
-                          "    pm.expect(donnees.nom).to.equal(\"Nom de test\");\r",
-                          "    pm.expect(donnees.email).to.equal(\"test@test.com\");\r",
-                          "\r",
-                          "    // Enregistrer l'id de l'utilisateur pour les tests ultérieurs\r",
-                          "    // Voir GET /utilisateurs/{id} 200\r",
-                          "    pm.environment.set(\"id_utilisateur\", donnees.id);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "prerequest",
-                      "script": {
-                        "id": "72eb1088-6d79-475f-a59c-1737649e41d2",
-                        "exec": [
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    }
-                  ],
-                  "id": "c99b3b2a-54bf-4fca-a2ab-85cead2ad123",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "nom 3 char",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
-                        "exec": [
-                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
-                          "    const donnees = pm.response.json();\r",
-                          "\r",
-                          "    pm.expect(donnees.nom).to.equal(\"123\");\r",
-                          "    pm.expect(donnees.email).to.equal(\"123@test.com\");\r",
-                          "\r",
-                          "    // Enregistrer l'id de l'utilisateur pour les tests ultérieurs\r",
-                          "    pm.environment.set(\"id_utilisateur2\", donnees.id);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "prerequest",
-                      "script": {
-                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
-                        "exec": [
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    }
-                  ],
-                  "id": "f4e22cd6-db21-488d-9c09-e1169623f641",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"123\",\r\n    \"email\": \"123@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "nom 255 char",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
-                        "exec": [
-                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
-                          "    const donnees = pm.response.json();\r",
-                          "\r",
-                          "    pm.expect(donnees.nom).to.equal(\"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678912345\");\r",
-                          "    pm.expect(donnees.email).to.equal(\"255char@test.com\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "prerequest",
-                      "script": {
-                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
-                        "exec": [
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    }
-                  ],
-                  "id": "cff32404-ee47-4c25-bc3a-f398d4fc78fc",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678912345\",\r\n    \"email\": \"255char@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe 3 char",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
-                        "exec": [
-                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
-                          "    const donnees = pm.response.json();\r",
-                          "\r",
-                          "    pm.expect(donnees.nom).to.equal(\"mdp3char\");\r",
-                          "    pm.expect(donnees.email).to.equal(\"mdp3char@test.com\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "prerequest",
-                      "script": {
-                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
-                        "exec": [
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    }
-                  ],
-                  "id": "c39d89e8-dede-4215-a5dc-bfdf10e37329",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"mdp3char\",\r\n    \"email\": \"mdp3char@test.com\",\r\n    \"motDePasse\": \"a1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe 255 char",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "6d456bed-0978-4157-a6da-efa36ce9c484",
-                        "exec": [
-                          "pm.test(\"La réponse contient les données ajoutées\", function () {\r",
-                          "    const donnees = pm.response.json();\r",
-                          "\r",
-                          "    pm.expect(donnees.nom).to.equal(\"mdp255char\");\r",
-                          "    pm.expect(donnees.email).to.equal(\"mdp255char@test.com\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "prerequest",
-                      "script": {
-                        "id": "e55a7462-26d4-4a68-905c-15b3d28819f8",
-                        "exec": [
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    }
-                  ],
-                  "id": "941d8aad-8efa-4a9d-a900-c5a201f4ce2b",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"mdp255char\",\r\n    \"email\": \"mdp255char@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcde\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                }
-              ],
-              "id": "95f6f4be-ad08-48f9-9ce2-2effa1836a0c",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "327cb317-782f-441a-9737-5bc325216e3b",
-                    "type": "text/javascript",
-                    "packages": {},
-                    "requests": {},
-                    "exec": [
-                      ""
-                    ]
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "48fdb7e5-40be-4b4b-b012-d60dda6b37e0",
-                    "type": "text/javascript",
-                    "packages": {},
-                    "requests": {},
-                    "exec": [
-                      "pm.test(\"Code de statut est 201\", function () {\r",
-                      "    pm.response.to.have.status(201);\r",
-                      "});\r",
-                      "\r",
-                      "pm.test(\"Content-Type est application/json\", function () {\r",
-                      "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
-                      "});\r",
-                      "\r",
-                      "pm.test('Le schéma de la réponse est valide', function () {\r",
-                      "    pm.response.to.have.jsonSchema(schemas.UtilisateurDTO);\r",
-                      "});"
-                    ]
-                  }
-                }
-              ]
             },
             {
-              "name": "400",
+              "name": "401",
               "item": [
                 {
-                  "name": "nom manquant",
-                  "id": "9340d5c5-14b9-4e8d-a023-bb0853a3804b",
+                  "name": "Pas connecté",
+                  "id": "69630fb0-39e9-4b62-8417-a7e146ea9def",
                   "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
+                    "auth": {
+                      "type": "noauth"
                     },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "email manquant",
-                  "id": "c1c2e2c2-30e6-4200-b86c-d2c737be5841",
-                  "request": {
-                    "method": "POST",
+                    "method": "GET",
                     "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe manquant",
-                  "id": "4ac814d5-775c-42a9-a88e-9ae667cf6385",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"test@test.com\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "nom 2 char",
-                  "id": "dcd45b6a-d130-4ce9-97a4-c826b8c018b2",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"12\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "nom 256 char",
-                  "id": "cefb31fe-0caa-4c1e-8de1-0e2d1f22b972",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789123456\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe 2 char",
-                  "id": "94a552b3-4184-4ce3-b648-f5798038ca7d",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"a1\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe 256 char",
-                  "id": "411474a4-683f-40d4-a24e-2df377200131",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_abcd!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "email 255 char",
-                  "id": "152444b9-a85e-4fe5-82fa-8e057978fe62",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"_012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789abcdef@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "email mauvais format",
-                  "id": "4409d4c7-9292-45a4-a253-d6fba74ad972",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"email\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe sans chiffre",
-                  "id": "0d246665-ffdf-4df8-96c0-0bad57bf58c6",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "mot de passe sans lettre",
-                  "id": "41c8a554-10ba-4bd7-8862-9be5a7f8d4da",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"123456789!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
                     "url": {
                       "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
@@ -735,12 +1452,12 @@
                   "response": []
                 }
               ],
-              "id": "fb97253b-f3ce-4f7a-9396-5e7854da4cbb",
+              "id": "7263aac9-0ca5-42a3-af3f-86d84770816b",
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "id": "86afdcd0-b939-4943-9e92-5bbd19671fc9",
+                    "id": "23bd9229-3cc1-4334-8fff-3b9cd2694ee4",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
@@ -752,13 +1469,13 @@
                 {
                   "listen": "test",
                   "script": {
-                    "id": "d37e5f2a-36a1-4db7-8bae-77597bef9b90",
+                    "id": "535b5d06-0f4a-482a-964c-93060b4cafd3",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
                     "exec": [
-                      "pm.test(\"Code de statut est 400\", function () {\r",
-                      "    pm.response.to.have.status(400);\r",
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
                       "});\r",
                       ""
                     ]
@@ -767,51 +1484,24 @@
               ]
             },
             {
-              "name": "409",
+              "name": "403",
               "item": [
                 {
-                  "name": "Nom existant",
-                  "id": "deb5e6db-8b5b-4ddb-975c-27b56711d1ee",
+                  "name": "Pas admin",
+                  "id": "dbe90100-c789-47d1-977d-65e41ae16dec",
                   "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"Nom de test\",\r\n    \"email\": \"123456789asdf@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{test_access_token}}",
+                          "type": "string"
                         }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/utilisateurs",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "utilisateurs"
                       ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "Email existant",
-                  "id": "a89bebd1-d7a0-4410-9795-bf3e36a1c5b0",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"nom\": \"lkjsadhcvsdhagcjdbscyiewrrfbvekfdvbioesadu\",\r\n    \"email\": \"test@test.com\",\r\n    \"motDePasse\": \"Password1!\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
                     },
+                    "method": "GET",
+                    "header": [],
                     "url": {
                       "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
@@ -826,12 +1516,12 @@
                   "response": []
                 }
               ],
-              "id": "bbb5e644-140e-470a-8b1c-9a2029ef365d",
+              "id": "f5a7a5d5-4634-442f-ab21-92a31c87032c",
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "id": "8a84ecb2-1070-4b15-829c-870c20f89efb",
+                    "id": "2e0bfbde-42da-434f-97bb-d5afc723b05c",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
@@ -843,13 +1533,13 @@
                 {
                   "listen": "test",
                   "script": {
-                    "id": "d6dec6b7-cfae-4107-802a-1d91aaecd8f9",
+                    "id": "c8b295f4-85ca-48ce-8e92-404a73f6f37c",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
                     "exec": [
-                      "pm.test(\"Code de statut est 409\", function () {\r",
-                      "    pm.response.to.have.status(409);\r",
+                      "pm.test(\"Code de statut est 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
                       "});\r",
                       ""
                     ]
@@ -858,7 +1548,7 @@
               ]
             }
           ],
-          "id": "67b9f74d-1a57-4244-b1dc-7c20dbfd67b1"
+          "id": "3c922f41-fb0d-4d51-ad25-d9bff94d65d6"
         },
         {
           "name": "GET /utilisateurs/{id}",
@@ -904,14 +1594,14 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs/{{test_utilisateur_id}}",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "{{test_utilisateur_id}}"
                       ]
                     }
                   },
@@ -950,6 +1640,63 @@
                       "\r",
                       "pm.test('Le schéma de la réponse est valide', function () {\r",
                       "    pm.response.to.have.jsonSchema(schemas.UtilisateurDTO);\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "401",
+              "item": [
+                {
+                  "name": "Pas connecté",
+                  "id": "6c8c0ef6-2406-4be5-9ac5-d3926e33eb47",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/utilisateurs/1",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "utilisateurs",
+                        "1"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "e3f1c7c5-19ed-4196-8f22-a430241eae71",
+              "auth": {
+                "type": "noauth"
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "4d131602-20e5-4311-aa53-408598d0bc65",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "ad9f0404-5731-4519-870d-417a5fbc0977",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
                       "});"
                     ]
                   }
@@ -1014,7 +1761,7 @@
           "id": "1ff14934-1988-4589-a9ec-aa6d015794b0"
         },
         {
-          "name": "PUT /utilisateurs/{id}",
+          "name": "PUT /utilisateurs",
           "item": [
             {
               "name": "204",
@@ -1035,14 +1782,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1064,14 +1810,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1093,14 +1838,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1122,14 +1866,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1151,14 +1894,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1196,11 +1938,11 @@
               ]
             },
             {
-              "name": "404",
+              "name": "401",
               "item": [
                 {
-                  "name": "id -1",
-                  "id": "5f53e408-6659-44c9-890f-0f98e5472cfc",
+                  "name": "Pas connecté",
+                  "id": "631bc4f7-f799-4c27-ad88-45cbf54daa18",
                   "request": {
                     "method": "PUT",
                     "header": [],
@@ -1214,26 +1956,28 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/-1",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "-1"
+                        "utilisateurs"
                       ]
                     }
                   },
                   "response": []
                 }
               ],
-              "id": "34efdc55-d199-4c70-a5fb-359d0e4da4fb",
+              "id": "efcca88d-dab4-4820-aed3-58756f8e61aa",
+              "auth": {
+                "type": "noauth"
+              },
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "id": "f940e1c3-bb17-4b3a-90f2-e02bf2fde625",
+                    "id": "5732965e-a9e8-4c90-9fcd-b4e57a594329",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
@@ -1245,13 +1989,13 @@
                 {
                   "listen": "test",
                   "script": {
-                    "id": "75cf1809-398d-499b-8204-3e3eb6a7e4cf",
+                    "id": "12fb3fa4-696d-4b37-a6e9-c01efc87a80a",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
                     "exec": [
-                      "pm.test(\"Code de statut est 404\", function () {\r",
-                      "    pm.response.to.have.status(404);\r",
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
                       "});"
                     ]
                   }
@@ -1277,14 +2021,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1306,14 +2049,13 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1354,26 +2096,25 @@
           "id": "787ef355-3a74-4233-a4d8-8efe47c56731"
         },
         {
-          "name": "DELETE /utilisateurs/{id}",
+          "name": "DELETE /utilisateurs",
           "item": [
             {
               "name": "204",
               "item": [
                 {
-                  "name": "Delete user 3char",
+                  "name": "Delete user",
                   "id": "fcf55653-d12d-43c5-be09-74adc787693d",
                   "request": {
                     "method": "DELETE",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur2}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur2}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1412,23 +2153,22 @@
               ]
             },
             {
-              "name": "404",
+              "name": "401",
               "item": [
                 {
-                  "name": "Delete user 3char 2e fois",
+                  "name": "Pas connecté",
                   "id": "f28c46f5-908a-429a-bbaf-9a633fddd466",
                   "request": {
                     "method": "DELETE",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/utilisateurs/{{id_utilisateur2}}",
+                      "raw": "{{base_url}}/api/utilisateurs",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "utilisateurs",
-                        "{{id_utilisateur2}}"
+                        "utilisateurs"
                       ]
                     }
                   },
@@ -1436,11 +2176,14 @@
                 }
               ],
               "id": "fe88b593-2d89-4fc8-909a-3fceb3953a75",
+              "auth": {
+                "type": "noauth"
+              },
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "id": "4900bebc-2e49-4a65-89dd-82fd98d85847",
+                    "id": "11323ce5-c2a0-4244-b8e4-d0d7db601543",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
@@ -1452,13 +2195,13 @@
                 {
                   "listen": "test",
                   "script": {
-                    "id": "22c4a500-ef48-4de4-8a3b-a93a6cedf6e9",
+                    "id": "3e5c271a-79ed-4d87-8266-c48fa04d4ae3",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
                     "exec": [
-                      "pm.test(\"Code de statut est 404\", function () {\r",
-                      "    pm.response.to.have.status(404);\r",
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
                       "});\r",
                       ""
                     ]
@@ -1467,10 +2210,30 @@
               ]
             }
           ],
-          "id": "6e4c4518-a74f-452f-a0ee-650e707ed56e"
+          "id": "6e4c4518-a74f-452f-a0ee-650e707ed56e",
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "key": "token",
+                "value": "{{123_access_token}}",
+                "type": "string"
+              }
+            ]
+          }
         }
       ],
-      "id": "6b783bf6-6a60-462c-8192-3d207c5df6d9"
+      "id": "6b783bf6-6a60-462c-8192-3d207c5df6d9",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{test_access_token}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "name": "Messages",
@@ -1493,8 +2256,8 @@
                           "    const donnees = pm.response.json();\r",
                           "\r",
                           "    pm.expect(donnees.texte).to.equal(\"Allo\");\r",
-                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
-                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"test_utilisateur_id\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"test_utilisateur_id\"));\r",
                           "});\r",
                           ""
                         ],
@@ -1522,7 +2285,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"Allo\"\r\n}",
+                      "raw": "{\r\n  \"texte\": \"Allo\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1530,14 +2293,14 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "Utilisateurs",
-                        "{{id_utilisateur}}",
+                        "{{test_utilisateur_id}}",
                         "Messages"
                       ]
                     }
@@ -1556,8 +2319,8 @@
                           "    const donnees = pm.response.json();\r",
                           "\r",
                           "    pm.expect(donnees.texte).to.equal(\"1\");\r",
-                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
-                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"test_utilisateur_id\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"test_utilisateur_id\"));\r",
                           "});\r",
                           ""
                         ],
@@ -1585,7 +2348,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"1\"\r\n}",
+                      "raw": "{\r\n  \"texte\": \"1\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1593,14 +2356,14 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "Utilisateurs",
-                        "{{id_utilisateur}}",
+                        "{{test_utilisateur_id}}",
                         "Messages"
                       ]
                     }
@@ -1619,8 +2382,8 @@
                           "    const donnees = pm.response.json();\r",
                           "\r",
                           "    pm.expect(donnees.texte).to.equal(pm.variables.get(\"message\"));\r",
-                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
-                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"id_utilisateur\"));\r",
+                          "    pm.expect(donnees.utilisateurId).to.equal(pm.environment.get(\"test_utilisateur_id\"));\r",
+                          "    pm.expect(donnees.receveurId).to.equal(pm.environment.get(\"test_utilisateur_id\"));\r",
                           "});\r",
                           ""
                         ],
@@ -1649,7 +2412,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"{{message}}\"\r\n}",
+                      "raw": "{\r\n  \"texte\": \"{{message}}\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1657,14 +2420,14 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "Utilisateurs",
-                        "{{id_utilisateur}}",
+                        "{{test_utilisateur_id}}",
                         "Messages"
                       ]
                     }
@@ -1714,36 +2477,6 @@
               "name": "400",
               "item": [
                 {
-                  "name": "envoyeurId manquant",
-                  "id": "4f7f19dd-f42b-4739-98a2-0a157f74b44c",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"texte\": \"allo\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "Utilisateurs",
-                        "{{id_utilisateur}}",
-                        "Messages"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
                   "name": "texte manquant",
                   "id": "c317f5fe-9fc8-4da2-9d02-3fcde27154d9",
                   "request": {
@@ -1751,7 +2484,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}}\r\n}",
+                      "raw": "{\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1759,14 +2492,14 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "Utilisateurs",
-                        "{{id_utilisateur}}",
+                        "{{test_utilisateur_id}}",
                         "Messages"
                       ]
                     }
@@ -1781,7 +2514,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"\"\r\n}",
+                      "raw": "{\r\n  \"texte\": \"\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1789,14 +2522,14 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "Utilisateurs",
-                        "{{id_utilisateur}}",
+                        "{{test_utilisateur_id}}",
                         "Messages"
                       ]
                     }
@@ -1838,7 +2571,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"{{message65536}}\"\r\n}",
+                      "raw": "{\r\n  \"texte\": \"{{message65536}}\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1846,14 +2579,14 @@
                       }
                     },
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
                         "Utilisateurs",
-                        "{{id_utilisateur}}",
+                        "{{test_utilisateur_id}}",
                         "Messages"
                       ]
                     }
@@ -1893,6 +2626,74 @@
               ]
             },
             {
+              "name": "401",
+              "item": [
+                {
+                  "name": "Pas connecté",
+                  "id": "991d555a-d4da-4cbc-bd31-933aba1e3d71",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"texte\": \"Allo\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/Utilisateurs/{{test_utilisateur_id}}/Messages",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "Utilisateurs",
+                        "{{test_utilisateur_id}}",
+                        "Messages"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "b4a55e6b-22e6-487d-ad1b-df418b0daf73",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "c092dd56-d5c4-4f16-844a-07d19b291c42",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "96b93343-abb0-4983-b510-acdd6c89cb71",
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {},
+                    "exec": [
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      ""
+                    ]
+                  }
+                }
+              ]
+            },
+            {
               "name": "404",
               "item": [
                 {
@@ -1903,7 +2704,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": {{id_utilisateur}},\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
+                      "raw": "{\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1919,36 +2720,6 @@
                         "api",
                         "Utilisateurs",
                         "-1",
-                        "Messages"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "body id -1",
-                  "id": "c5e71f0b-11d7-428e-9112-76d373e0936a",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n  \"envoyeurId\": -1,\r\n  \"texte\": \"Bonjour, comment ça va?\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
-                      "host": [
-                        "{{base_url}}"
-                      ],
-                      "path": [
-                        "api",
-                        "Utilisateurs",
-                        "{{id_utilisateur}}",
                         "Messages"
                       ]
                     }
@@ -1991,7 +2762,7 @@
           "id": "2ddf8922-9f43-4eef-af42-c9defc521191"
         },
         {
-          "name": "GET /utilisateurs/{id}/messages",
+          "name": "GET /messages",
           "item": [
             {
               "name": "200",
@@ -2003,15 +2774,13 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/{{id_utilisateur}}/Messages",
+                      "raw": "{{base_url}}/api/messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "Utilisateurs",
-                        "{{id_utilisateur}}",
-                        "Messages"
+                        "messages"
                       ]
                     }
                   },
@@ -2057,23 +2826,24 @@
               ]
             },
             {
-              "name": "404",
+              "name": "401",
               "item": [
                 {
-                  "name": "id -1",
+                  "name": "Pas connecté",
                   "id": "37e1f22a-9fbb-465b-87bc-a65dae787b5e",
                   "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{base_url}}/api/Utilisateurs/-1/Messages",
+                      "raw": "{{base_url}}/api/Messages",
                       "host": [
                         "{{base_url}}"
                       ],
                       "path": [
                         "api",
-                        "Utilisateurs",
-                        "-1",
                         "Messages"
                       ]
                     }
@@ -2086,7 +2856,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "id": "61f27eeb-c59c-49e3-ac84-fe71b1c92cc1",
+                    "id": "c092dd56-d5c4-4f16-844a-07d19b291c42",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
@@ -2098,13 +2868,13 @@
                 {
                   "listen": "test",
                   "script": {
-                    "id": "f1aea6c9-8414-44fb-86c7-ce98c937b25d",
+                    "id": "96b93343-abb0-4983-b510-acdd6c89cb71",
                     "type": "text/javascript",
                     "packages": {},
                     "requests": {},
                     "exec": [
-                      "pm.test(\"Code de statut est 404\", function () {\r",
-                      "    pm.response.to.have.status(404);\r",
+                      "pm.test(\"Code de statut est 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
                       "});\r",
                       ""
                     ]
@@ -2116,14 +2886,78 @@
           "id": "9f6fb3ab-3566-48e0-8750-646e27ce6cf0"
         }
       ],
-      "id": "48085cfb-f755-4caa-a5f0-8f9c56c31560"
+      "id": "48085cfb-f755-4caa-a5f0-8f9c56c31560",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{test_access_token}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cleanup",
+      "item": [
+        {
+          "name": "Réinitialiser la base de données",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "bc58a4dc-bdda-4aaa-81e3-edc8ccc61eb5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "26e85e21-63e4-4c4c-873d-5fcca4c60b65",
+                "exec": [
+                  "pm.test(\"Code de statut est 204\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "b0278a29-5d77-4cbd-809a-eac2cfdeedd4",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dev/reinitialiserbasededonnees",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "dev",
+                "reinitialiserbasededonnees"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "befe94a4-b626-47a3-97b9-c7c71663d3f8"
     }
   ],
   "event": [
     {
       "listen": "prerequest",
       "script": {
-        "id": "1b602496-92aa-48e1-ac61-8fd97b5b8c2d",
+        "id": "42b148b3-7087-4d24-ace8-9fe2a0204590",
         "type": "text/javascript",
         "packages": {},
         "requests": {},
@@ -2187,11 +3021,26 @@
           "    items: UtilisateurDTO\r",
           "};\r",
           "\r",
+          "const LoginReponseDTO = {\r",
+          "    \"type\": \"object\",\r",
+          "    \"required\": [\r",
+          "        \"accessToken\",\r",
+          "        \"utilisateur\"\r",
+          "    ],\r",
+          "    \"properties\": {\r",
+          "        \"accessToken\": {\r",
+          "            \"type\": \"string\",\r",
+          "        },\r",
+          "        \"utilisateur\": UtilisateurDTO,\r",
+          "    },\r",
+          "};\r",
+          "\r",
           "schemas = {\r",
           "    MessageDTO,\r",
           "    MessageDTOs,\r",
           "    UtilisateurDTO,\r",
           "    UtilisateurDTOs,\r",
+          "    LoginReponseDTO,\r",
           "}\r",
           ""
         ]
@@ -2200,7 +3049,7 @@
     {
       "listen": "test",
       "script": {
-        "id": "37037d6f-a221-4c68-99a2-8e195a194460",
+        "id": "ce8296a1-2c13-4505-92fb-05378a5ea140",
         "type": "text/javascript",
         "packages": {},
         "requests": {},
@@ -2212,7 +3061,7 @@
   ],
   "variable": [
     {
-      "id": "e41465ee-639f-4a72-9b16-e8b2e70cbaff",
+      "id": "ccb23024-09b6-4abe-9671-75ac34bebeee",
       "key": "base_url",
       "value": "https://localhost:7207"
     }

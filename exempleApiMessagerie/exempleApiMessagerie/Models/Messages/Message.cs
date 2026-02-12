@@ -49,10 +49,10 @@ public class Message {
     [ForeignKey(nameof(ReceveurId))]
     public Utilisateur Receveur { get; set; } = null!;
 
-    public static Message FromDTO(MessageInsertDTO dto, long receveurId) {
+    public static Message FromDTO(MessageInsertDTO dto, long receveurId, long envoyeurId) {
         return new Message {
             Texte = dto.Texte,
-            EnvoyeurId = dto.EnvoyeurId,
+            EnvoyeurId = envoyeurId,
             ReceveurId = receveurId
         };
     }

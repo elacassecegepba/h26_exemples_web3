@@ -1,7 +1,9 @@
 ﻿using exempleApiMessagerie.Models.Messages;
+using Konscious.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 
 namespace exempleApiMessagerie.Models.Utilisateurs;
 
@@ -61,13 +63,76 @@ public class Utilisateur {
         return new Utilisateur {
             Nom = dto.Nom,
             Email = dto.Email,
-            MotDePasse = dto.MotDePasse
+            MotDePasse = HashMotDePasse(dto.MotDePasse)
         };
     }
 
     public void UpdateFromDTO(UtilisateurUpsertDTO dto) {
         Nom = dto.Nom;
         Email = dto.Email;
-        MotDePasse = dto.MotDePasse;
+        MotDePasse = HashMotDePasse(dto.MotDePasse);
+    }
+
+    public bool VerifierMotDePasse(string motDePasse) {
+        return VerifierMotDePasse(motDePasse, MotDePasse);
+    }
+
+    /// <summary>
+    /// Fonction utilitaire pour hasher un mot de passe avec Argon2id.
+    /// </summary>
+    /// <param name="motDePasse">Le mot de passe à hasher</param>
+    /// <returns>Le sel et le hash combinés en une seule chaîne Base64</returns>
+    public static string HashMotDePasse(string motDePasse) {
+        // Générer un sel aléatoire de 16 octets
+        byte[] sel = RandomNumberGenerator.GetBytes(16);
+        // Hash du mot de passe avec Argon2id
+        byte[] hashBytes = HashMotDePasseBytes(motDePasse, sel);
+
+        // Combiner le sel et le hash pour les stocker ensemble
+        byte[] hashAvecSel = new byte[16 + hashBytes.Length];
+        Array.Copy(sel, 0, hashAvecSel, 0, 16);
+        Array.Copy(hashBytes, 0, hashAvecSel, 16, hashBytes.Length);
+
+        return Convert.ToBase64String(hashAvecSel);
+    }
+
+    /// <summary>
+    /// Fonction utilitaire pour vérifier un mot de passe contre un hash stocké.
+    /// </summary>
+    /// <param name="motDePasse">Le mot de passe à vérifier</param>
+    /// <param name="hash">Le hash stocké (contenant le sel et le hash)</param>
+    /// <returns>True si le mot de passe correspond au hash, sinon false</returns>
+    public static bool VerifierMotDePasse(string motDePasse, string hash) {
+        byte[] hashBytes = Convert.FromBase64String(hash);
+
+        // Extraire le sel du hash stocké
+        byte[] sel = new byte[16];
+        Array.Copy(hashBytes, 0, sel, 0, 16);
+
+        // Extraire le hash stocké (sans le sel)
+        byte[] hashStocke = new byte[hashBytes.Length - 16];
+        Array.Copy(hashBytes, 16, hashStocke, 0, hashStocke.Length);
+
+        // Hash du mot de passe fourni avec le même sel
+        byte[] hashMotDePasse = HashMotDePasseBytes(motDePasse, sel);
+
+        return hashMotDePasse.SequenceEqual(hashStocke);
+    }
+
+    /// <summary>
+    /// Fonction utilitaire pour hasher un mot de passe avec Argon2id et un sel donné.
+    /// </summary>
+    /// <param name="motDePasse">Le mot de passe à hasher</param>
+    /// <param name="sel">Le sel à utiliser pour le hash</param>
+    /// <returns>Le hash du mot de passe</returns>
+    private static byte[] HashMotDePasseBytes(string motDePasse, byte[] sel) {
+        byte[] motDePasseBytes = System.Text.Encoding.UTF8.GetBytes(motDePasse);
+        var argon2 = new Argon2id(motDePasseBytes) {
+            Salt = sel,
+            DegreeOfParallelism = 1, // Nombre de threads à utiliser
+            Iterations = 2, // Nombre d'itérations
+            MemorySize = 19456 // Mémoire utilisée en KiB
+        };
+        return argon2.GetBytes(128);
     }
 }
